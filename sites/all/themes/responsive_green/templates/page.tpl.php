@@ -65,9 +65,11 @@
  */
 ?>
 
+
+
 <div id="header_wrapper">
   <header id="header" role="banner">
-    <?php if ($logo): ?><div id="logo"><a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><img src="<?php print $logo; ?>"/></a></div>
+    <?php if ($logo): ?><div id="logo"><a  id="ste-title" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">Share My Ride</a></div>
     <?php endif; ?>
     <h1 id="site-title"><div id="site-description"><?php print $site_slogan; ?></div></h1>
       <?php if ($display): ?>

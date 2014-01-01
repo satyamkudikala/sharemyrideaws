@@ -1592,3 +1592,14 @@ ol.search-results {
 #foot .block > h2 {
   color:#ffffff;
 }
+#ste-title {
+clear: both;
+color: #000000;
+text-shadow: 0.1em 0.1em 0.05em #333;
+float: left;
+font-family: Dancing script,arial,serif !important;
+font-size: 50px;
+line-height: 100%;
+margin: 10px 0 0;
+font-weight: bold;
+}

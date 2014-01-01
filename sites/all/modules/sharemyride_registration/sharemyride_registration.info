@@ -1,0 +1,7 @@
+name = sharemyride_registration
+description = sharemyride_registration
+package = custom
+version = VERSION
+core = 7.x
+dependencies[]=ctools
+files[]=sharemyride_registration_ctools_wizard.inc
