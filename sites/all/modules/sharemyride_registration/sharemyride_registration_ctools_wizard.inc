@@ -101,13 +101,7 @@ function sharemyride_registration_subtask_finish(&$form_state) {
     drupal_goto('');
 }
 
-function sharemyride_registration_group_info_form($form, &$form_state) {
-    $form['item'] = array(
-            '#markup' => t('This is step 2'),
-        );
-    return $form; 
-    
-} 
+
 function sharemyride_registration_invite_form($form, &$form_state) { 
     $form['item'] = array( 
         '#markup' => t('This is step 3'), 
