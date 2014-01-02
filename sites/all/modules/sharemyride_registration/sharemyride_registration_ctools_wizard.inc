@@ -51,6 +51,7 @@ function sharemyride_registration_ctools_wizard($step = 'register') {
     $form_state['signup_object'] = sharemyride_registration_get_page_cache('signup');
     // Return the form as a Ctools multi-step form.
     $output = ctools_wizard_multistep_form($form_info, $step, $form_state);
+    drupal_set_message('Hi called');
     return $output;
 }
 
