@@ -1,0 +1,20 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function userregistration_menu() {
+    $items = array();
+    $items['userregister'] = array(
+        'title' => 'User Registration',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('form_userregistration_wizard'),
+        'access callback' => 'user_is_anonymous',
+        'description' => 'User Registration',
+        'file' => 'userregistration_wizard.inc',
+    );
+    return $items;
+}

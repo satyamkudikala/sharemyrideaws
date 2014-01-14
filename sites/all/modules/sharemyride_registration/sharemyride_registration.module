@@ -24,6 +24,8 @@ function sharemyride_registration_menu() {
         array(2),
         'file' => 'sharemyride_registration_ctools_wizard.inc',
         'type' => MENU_CALLBACK,);
+    
+    
     return $items;
 }
 

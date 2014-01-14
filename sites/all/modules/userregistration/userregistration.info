@@ -1,0 +1,7 @@
+name = userregistration
+description = userregistration
+package = custom
+version = VERSION
+core = 7.x
+dependencies[]=ctools
+

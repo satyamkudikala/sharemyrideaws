@@ -1,0 +1,337 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Implements hook_field_schema()
+ */
+function userregistration_schema() {
+
+    $schema['userregistration'] = array(
+        'description' => 'The base table for User Detials .',
+        'fields' => array(
+            'username' => array(
+                'description' => 'primary identifier for UserRegisterationDetilas table',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+            //'default' => '',          
+            ),
+            'password' => array(
+                'description' => 'User Given password',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+            //'default' => '',          
+            ),
+            'email' => array(
+                'description' => 'User registered email',
+                'type' => 'varchar',
+                'length' => 50,
+                'not null' => TRUE,
+            //'default' => '',          
+            ),
+            'firstname' => array(
+                'description' => 'User firstname',
+                'type' => 'varchar',
+                'length' => 30,
+                'not null' => TRUE,
+            //'default' => '',          
+            ),
+            'lastname' => array(
+                'description' => 'User firstname',
+                'type' => 'varchar',
+                'length' => 40,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'mobilenumber' => array(
+                'description' => 'User Mobilenumber',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+        
+            'altmobilenumber' => array(
+                'description' => 'User Alternate Mobilenumber',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'dob' => array(                
+                'type' => 'int',
+              //  'size' => 18,
+                'not null' => TRUE,
+                'description' => 'dateofbirth',
+                'default' => 0
+            ),
+            'fileid' => array(
+                'description' => 'fileid',
+                'type' => 'varchar',
+                'length' => 20,
+                
+            ),
+            'driverLicnum' => array(
+                'description' => 'driverLicnumber',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'docveristatus' => array(
+                'description' => 'Uploaded file id',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'usertype' => array(
+                'description' => 'Uploaded file id',
+                'type' => 'varchar',
+                'length' => 10,
+                'not null' => TRUE,
+                'default' => 'passenger',
+            ),
+            'paymode' => array(
+                'description' => 'mode of payment',
+                'type' => 'varchar',
+                'length' => 10,
+                'not null' => TRUE,
+                'default' => 'passenger',
+            ),
+            'status' => array(
+                'description' => 'status of user',
+                'type' => 'varchar',
+                'length' => 10,
+                'not null' => TRUE,
+                'default' => 'Inactive',
+            ),
+            'useraddressid' => array(
+                'description' => 'addressId of addresstable',
+                'type' => 'int',
+            ),
+            'usercardetailsid' => array(
+                'description' => 'Car details Id ',
+                'type' => 'int',
+            ),
+        ),
+        'primary key' => array('username'),
+        'foreign keys' => array(
+            'usercardetailsid' => array(
+                'table' => 'cardetails',
+                'columns' => array('usercardetailsid' => 'carid'),
+            ),
+            'useraddressid' => array(
+                'table' => 'useraddress',
+                'columns' => array('useraddressid' => 'addressid'),
+            ),
+        )
+    );
+
+    $schema['intrestes'] = array(
+        'description' => 'user Intrests',
+        'fields' => array(
+            'intrestId' => array(
+                'description' => 'car details',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'intresttext' => array(
+                'description' => 'intresttext',
+                'type' => 'varchar',
+                'length' => 50,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'username' => array(
+                'description' => 'usernamefk',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+        ),
+        'primary key' => array('intrestId'),
+        'foreign keys' => array(
+            'username' => array(
+                'table' => 'userregistration',
+                'columns' => array('username' => 'username'),
+            ),
+        )
+    );
+    $schema['cardetails'] = array(
+        'description' => 'Car details',
+        'fields' => array(
+            'carid' => array(
+                'description' => 'car details',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'carmodel' => array(
+                'description' => 'car type',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'carcapacity' => array(
+                'description' => 'car capacity',
+                'type' => 'int',
+                'not null' => TRUE,
+                'default' => 0,
+            ),
+            'carnumber' => array(
+                'description' => 'car number',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'carcolor' => array(
+                'description' => 'car color',
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+        ),
+        'primary key' => array('carid'),
+    );
+
+    $schema['useraddress'] = array(
+        'description' => 'User Address table',
+        'fields' => array(
+            'addressid' => array(
+                'description' => 'Two letter ISO country code of this address.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'country' => array(
+                'description' => 'Two letter ISO country code of this address.',
+                'type' => 'varchar',
+                'length' => 2,
+                'not null' => FALSE,
+                'default' => '',
+            ),
+            'administrative_area' => array(
+                'description' => 'The administrative area of this address. (i.e. State/Province)',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+                'not null' => FALSE,
+            ),
+            'sub_administrative_area' => array(
+                'description' => 'The sub administrative area of this address.',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+                'not null' => FALSE,
+            ),
+            'locality' => array(
+                'description' => 'The locality of this address. (i.e. City)',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+                'not null' => FALSE,
+            ),
+            'dependent_locality' => array(
+                'description' => 'The dependent locality of this address.',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+                'not null' => FALSE,
+            ),
+            'postal_code' => array(
+                'description' => 'The postal code of this address.',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+                'not null' => FALSE,
+            ),
+            'thoroughfare' => array(
+                'description' => 'The thoroughfare of this address. (i.e. Street address)',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+                'not null' => FALSE,
+            ),
+            'premise' => array(
+                'description' => 'The premise of this address. (i.e. Apartment / Suite number)',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+                'not null' => FALSE,
+            ),
+            'sub_premise' => array(
+                'description' => 'The sub_premise of this address.',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+                'not null' => FALSE,
+            ),
+            'organisation_name' => array(
+                'description' => 'Contents of a primary OrganisationName element in the xNL XML.',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => FALSE,
+                'default' => '',
+            ),
+            'name_line' => array(
+                'description' => 'Contents of a primary NameLine element in the xNL XML.',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => FALSE,
+                'default' => '',
+            ),
+            'first_name' => array(
+                'description' => 'Contents of the FirstName element of a primary PersonName element in the xNL XML.',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => FALSE,
+                'default' => '',
+            ),
+            'last_name' => array(
+                'description' => 'Contents of the LastName element of a primary PersonName element in the xNL XML.',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => FALSE,
+                'default' => '',
+            ),
+            'data' => array(
+                'description' => 'Additional data for this address.',
+                'type' => 'text',
+                'size' => 'big',
+                'not null' => FALSE,
+                'serialize' => TRUE,
+            ),
+        ),
+        'primary key' => array('addressid'),
+    );
+    return $schema;
+}
+
+//
+//function userregistration_install_schema($module) {
+//  $schema = drupal_get_schema_unprocessed($module);
+//  _drupal_schema_initialize($schema, $module, FALSE);
+//
+//  foreach ($schema as $name => $table) {
+//    db_create_table($name, $table);
+//  }
+//}
+function userregistration_install() {
+
+ //   drupal_install_schema('userregistration');
+}
+function userregistration_uninstall() {
+    drupal_uninstall_schema('userregistration');
+}
