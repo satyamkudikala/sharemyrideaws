@@ -1221,6 +1221,7 @@ function user_validate_current_pass(&$form, &$form_state) {
  * @see user_account_form()
  */
 function user_account_form_validate($form, &$form_state) {
+    
   if ($form['#user_category'] == 'account' || $form['#user_category'] == 'register') {
     $account = $form['#user'];
     // Validate new or changing username.
@@ -3825,7 +3826,11 @@ function user_register_validate($form, &$form_state) {
  * @see user_register_form()
  */
 function user_register_submit($form, &$form_state) {
-  $admin = $form_state['values']['administer_users'];
+   // print '<pre>';
+    //print_r($form_state);
+    //print '</pre>';
+    
+    $admin = $form_state['values']['administer_users'];
 
   if (!variable_get('user_email_verification', TRUE) || $admin) {
     $pass = $form_state['values']['pass'];

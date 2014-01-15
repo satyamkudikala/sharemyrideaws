@@ -554,9 +554,9 @@ function form_userregistration_wizard_preview_info($form, &$form_state) {
         '#title' => t('Other Intrests'),
         '#markup' => !empty($form_state['step_information'][6]['stored_values']['intrest1']) ? $form_state['step_information'][6]['stored_values']['intrest1'] : 'No data',
     );
-      //   print '<pre>';
-     // print_r($form_state['step_information'][6]);
-     // print '</pre>';
+    //   print '<pre>';
+    // print_r($form_state['step_information'][6]);
+    // print '</pre>';
     return $form;
 }
 
@@ -604,27 +604,26 @@ function form_userregistration_wizard_conf_info($form, &$form_state) {
         '#suffix' => '</div>',
     );
     $messa = $form_state['values']['message'];
-    if($messa != 'Fail'){
-    $form['confirmation']['message'] = array(
-        '#markup' => t('Congratulations ... Confirmation mail sent to your mail ' )
-        
-    );
+    if ($messa != 'Fail') {
+        $form['confirmation']['message'] = array(
+            '#markup' => t('Congratulations ... Confirmation mail sent to your mail ')
+        );
         $form_state['values']['name'] = $form_state['step_information'][1]['stored_values']['username'];
         $form_state['values']['mail'] = $form_state['step_information'][1]['stored_values']['email'];
         $admin = user_access('administer users');
-        $form_state['values']['administer_users']  = $admin;
-        
-          $form_state['values']['#user'] = drupal_anonymous_user();
-          $form_state['values']['#user_category'] = 'register';
-          $form_state['values']['#attached']['library'][] = array('system', 'jquery.cookie');
-          $form_state['values']['#attributes']['class'][] = 'user-info-from-cookie';
+        $form_state['values']['administer_users'] = $admin;
+
+        $form_state['values']['#user'] = drupal_anonymous_user();
+        $form_state['values']['#user_category'] = 'register';
+        $form_state['values']['#attached']['library'][] = array('system', 'jquery.cookie');
+        $form_state['values']['#attributes']['class'][] = 'user-info-from-cookie';
 
         user_register_submit($form, $form_state);
-    }else{
-      $form['confirmation']['message'] = array(
-        '#markup' => t('Transaction failed . please try againe after some time ' )
-    );
-      $form_state['values']['message'] = '';
+    } else {
+        $form['confirmation']['message'] = array(
+            '#markup' => t('Transaction failed . please try againe after some time ')
+        );
+        $form_state['values']['message'] = '';
     }
     return $form;
 }
@@ -719,69 +718,73 @@ function form_userregistration_wizard_next_submit($form, &$form_state) {
 
 function form_userregistration_wizard_finish_submit($form, &$form_state) {
 
+    //print '<pre>';
+    // print_r($form_state);
+    // print '</pre>';
+    //user_register_submit($form, $form_state);           
     // address field stored 
     $transaction = db_transaction();
-    try{
-    $address_fields = array('country', 'administrative_area', 'sub_administrative_area',
-        'locality', 'dependent_locality', 'postal_code', 'thoroughfare',
-        'premise', 'sub_premise', 'organisation_name', 'name_line',
-        'first_name', 'last_name', 'data');
+    try {
+        $address_fields = array('country', 'administrative_area', 'sub_administrative_area',
+            'locality', 'dependent_locality', 'postal_code', 'thoroughfare',
+            'premise', 'sub_premise', 'organisation_name', 'name_line',
+            'first_name', 'last_name', 'data');
 
-    $user_address_data = array(
-        'country' => $form_state['step_information'][2]['stored_values']['address']['country'],
-        'administrative_area' => $form_state['step_information'][2]['stored_values']['address']['administrative_area'],
-        'sub_administrative_area' => $form_state['step_information'][2]['stored_values']['address']['sub_administrative_area'],
-        'locality' => $form_state['step_information'][2]['stored_values']['address']['locality'],
-        'dependent_locality' => $form_state['step_information'][2]['stored_values']['address']['dependent_locality'],
-        'postal_code' => $form_state['step_information'][2]['stored_values']['address']['postal_code'],
-        'thoroughfare' => $form_state['step_information'][2]['stored_values']['address']['thoroughfare'],
-        'premise' => $form_state['step_information'][2]['stored_values']['address']['premise'],
-        'sub_premise' => $form_state['step_information'][2]['stored_values']['address']['sub_premise'],
-        'organisation_name' => $form_state['step_information'][2]['stored_values']['address']['organisation_name'],
-        'name_line' => $form_state['step_information'][2]['stored_values']['address']['name_line'],
-        'first_name' => $form_state['step_information'][2]['stored_values']['address']['first_name'],
-        'last_name' => $form_state['step_information'][2]['stored_values']['address']['last_name'],
-        'data' => $form_state['step_information'][2]['stored_values']['address']['data'],
-    );
-
-    
-    $query = db_insert('useraddress')->fields($address_fields);
-
-    $query->values($user_address_data);
-
-    $result = $query->execute();
+        $user_address_data = array(
+            'country' => $form_state['step_information'][2]['stored_values']['address']['country'],
+            'administrative_area' => $form_state['step_information'][2]['stored_values']['address']['administrative_area'],
+            'sub_administrative_area' => $form_state['step_information'][2]['stored_values']['address']['sub_administrative_area'],
+            'locality' => $form_state['step_information'][2]['stored_values']['address']['locality'],
+            'dependent_locality' => $form_state['step_information'][2]['stored_values']['address']['dependent_locality'],
+            'postal_code' => $form_state['step_information'][2]['stored_values']['address']['postal_code'],
+            'thoroughfare' => $form_state['step_information'][2]['stored_values']['address']['thoroughfare'],
+            'premise' => $form_state['step_information'][2]['stored_values']['address']['premise'],
+            'sub_premise' => $form_state['step_information'][2]['stored_values']['address']['sub_premise'],
+            'organisation_name' => $form_state['step_information'][2]['stored_values']['address']['organisation_name'],
+            'name_line' => $form_state['step_information'][2]['stored_values']['address']['name_line'],
+            'first_name' => $form_state['step_information'][2]['stored_values']['address']['first_name'],
+            'last_name' => $form_state['step_information'][2]['stored_values']['address']['last_name'],
+            'data' => $form_state['step_information'][2]['stored_values']['address']['data'],
+        );
 
 
-    drupal_set_message('registration completed for address' . $result);
-    // car details 
+        $query = db_insert('useraddress')->fields($address_fields);
 
-    $car_fields = array('carmodel', 'carcapacity', 'carnumber', 'carcolor',);
+        $query->values($user_address_data);
 
-    $car_data = array(
-        'carmodel' => $form_state['step_information'][3]['stored_values']['cartype'],
-        'carcapacity' => $form_state['step_information'][3]['stored_values']['carcapacity'],
-        'carnumber' => $form_state['step_information'][3]['stored_values']['carnumber'],
-        'carcolor' => $form_state['step_information'][3]['stored_values']['carcolor'],
-    );
+        $result = $query->execute();
 
-    $car_insert_query = db_insert('cardetails')->fields($car_fields);
 
-    $car_insert_query->values($car_data);
+        drupal_set_message('registration completed for address' . $result);
+        // car details 
 
-    $car_ins_result = $car_insert_query->execute();
-    
-    drupal_set_message('car insert  completed for user' . $result);
+        $car_fields = array('carmodel', 'carcapacity', 'carnumber', 'carcolor',);
 
-    // User Details 
-    
-    $userdetails_fields = array('username', 'password', 'email', 'firstname', 'lastname', 'mobilenumber', 'altmobilenumber', 'dob', 'fileid',
-        'driverLicnum', 'docveristatus', 'usertype', 'paymode', 'status', 'useraddressid', 'usercardetailsid');
-    
-    $dob = str_pad($form_state['step_information'][2]['stored_values']['dateofbirth']['day'], 2, '0', STR_PAD_LEFT) .
-            str_pad($form_state['step_information'][2]['stored_values']['dateofbirth']['month'], 2, '0', STR_PAD_LEFT) .
-            str_pad($form_state['step_information'][2]['stored_values']['dateofbirth']['year'], 4, '0', STR_PAD_LEFT);
-    
-    $user_data = array(
+        $car_data = array(
+            'carmodel' => $form_state['step_information'][3]['stored_values']['cartype'],
+            'carcapacity' => $form_state['step_information'][3]['stored_values']['carcapacity'],
+            'carnumber' => $form_state['step_information'][3]['stored_values']['carnumber'],
+            'carcolor' => $form_state['step_information'][3]['stored_values']['carcolor'],
+        );
+
+        $car_insert_query = db_insert('cardetails')->fields($car_fields);
+
+        $car_insert_query->values($car_data);
+
+        $car_ins_result = $car_insert_query->execute();
+
+        drupal_set_message('car insert  completed for user' . $result);
+
+        // User Details 
+
+        $userdetails_fields = array('username', 'password', 'email', 'firstname', 'lastname', 'mobilenumber', 'altmobilenumber', 'dob', 'fileid',
+            'driverLicnum', 'docveristatus', 'usertype', 'paymode', 'status', 'useraddressid', 'usercardetailsid');
+
+        $dob = str_pad($form_state['step_information'][2]['stored_values']['dateofbirth']['day'], 2, '0', STR_PAD_LEFT) .
+                str_pad($form_state['step_information'][2]['stored_values']['dateofbirth']['month'], 2, '0', STR_PAD_LEFT) .
+                str_pad($form_state['step_information'][2]['stored_values']['dateofbirth']['year'], 4, '0', STR_PAD_LEFT);
+
+        $user_data = array(
             'username' => $form_state['step_information'][1]['stored_values']['username'],
             'password' => $form_state['step_information'][1]['stored_values']['password'],
             'email' => $form_state['step_information'][1]['stored_values']['email'],
@@ -797,57 +800,93 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
             'paymode' => $form_state['step_information'][5]['stored_values']['modeofpayment'],
             'status' => 'NA',
             'useraddressid' => $result,
-            'usercardetailsid' => $car_ins_result, 
-    );
-    
-    $user_insert_query = db_insert('userregistration')->fields($userdetails_fields);
+            'usercardetailsid' => $car_ins_result,
+        );
 
-    $user_insert_query->values($user_data);
+        $user_insert_query = db_insert('userregistration')->fields($userdetails_fields);
 
-    $user_insert_query->execute();
-    
-    drupal_set_message('User Inserted');
+        $user_insert_query->values($user_data);
 
-    //user intrests 
-    $intrest_fields = array('intresttext', 'username');
- 
+        $user_insert_query->execute();
 
-    $intrest_data = array(
-                    'intresttext' => $form_state['step_information'][6]['stored_values']['intrest1'],
-                    'username' => $form_state['step_information'][1]['stored_values']['username']
-                     );
-    
-    $intrest_insert_query = db_insert('intrestes')->fields($intrest_fields);
+        drupal_set_message('User Inserted');
 
-    $intrest_insert_query->values($intrest_data);
+        //user intrests 
+        $intrest_fields = array('intresttext', 'username');
 
-    $intrest_insert_query->execute();
-    
-    drupal_set_message('User Inserted with intrest details' );
-    
-    $messa = 'Transaction OK';
-    }  catch (Exception $e){
-    $transaction ->rollback();
-    drupal_set_message('rollback success' );
-    watchdog_exception('my_type', $e);
-        $messa = 'Fail';
-    }
-    $current_step = &$form_state['step'];
 
+        $intrest_data = array(
+            'intresttext' => $form_state['step_information'][6]['stored_values']['intrest1'],
+            'username' => $form_state['step_information'][1]['stored_values']['username']
+        );
+
+        $intrest_insert_query = db_insert('intrestes')->fields($intrest_fields);
+
+        $intrest_insert_query->values($intrest_data);
+
+        $intrest_insert_query->execute();
+
+        drupal_set_message('User Inserted with intrest details');
+
+        $messa = 'Transaction OK';
+        $user_name = $form_state['step_information'][1]['stored_values']['username'];
+        $email = $form_state['step_information'][1]['stored_values']['email'];
+        $pass = $form_state['step_information'][1]['stored_values']['password'];
+
+        $current_step = &$form_state['step'];
+        $form_state_copy = clone_array($form_state);
+          
+        
+          drupal_set_message('inserted');
+            $form_state = array();
+        $form_state['values']['name'] = $user_name;
+        $form_state['values']['mail'] = $email;
+        $form_state['values']['pass']['pass1'] = $pass;
+        $form_state['values']['pass']['pass2'] = $pass;
+        $form_state['values']['op'] = t('Create new account');
+        drupal_form_submit('user_register_form', $form_state);
+        drupal_set_message('inserted User');
+        $from_state = array();
+        $form_state = clone_array($form_state_copy);
+        
+        
     $form_state['step_information'][$current_step]['stored_values'] = $form_state['values'];
 
-    if ($current_step < count($form_state['step_information'])) {
-        $current_step++;
-        if (!empty($form_state['step_information'][$current_step]['stored_values'])) {
-            $form_state['values'] = $form_state['step_information'][$current_step]['stored_values'];
-        } else {
-            $form_state['values'] = array();
-            $form_state['values']['message'] = $messa ;
+        if ($current_step < count($form_state['step_information'])) {
+            $current_step++;
+            if (!empty($form_state['step_information'][$current_step]['stored_values'])) {
+                $form_state['values'] = $form_state['step_information'][$current_step]['stored_values'];
+            } else {
+                $form_state['values'] = array();
+                $form_state['values']['message'] = $messa;
+            }
+            $form_state['rebuild'] = TRUE;  // Force rebuild with next step.
         }
-        $form_state['rebuild'] = TRUE;  // Force rebuild with next step.
+
         
-        return;
+        
+    } catch (Exception $e) {
+        $transaction->rollback();
+        drupal_set_message('rollback success' . $e);
+        watchdog_exception('my_type', $e);
+        $messa = 'Fail';
     }
+        
+    return;
+}
+
+function clone_array($copied_array) {
+    return array_map(function($element) {
+        return (
+            ((is_array($element))
+                ? call_user_func(__FUNCTION__, $element)
+                : ((is_object($element))
+                    ? clone $element
+                    : $element
+                )
+            )
+        );
+    }, $copied_array);
 }
 
 /**
