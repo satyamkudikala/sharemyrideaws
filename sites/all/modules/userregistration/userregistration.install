@@ -146,7 +146,7 @@ function userregistration_schema() {
             'intresttext' => array(
                 'description' => 'intresttext',
                 'type' => 'varchar',
-                'length' => 50,
+                'length' => 500,
                 'not null' => TRUE,
                 'default' => '',
             ),

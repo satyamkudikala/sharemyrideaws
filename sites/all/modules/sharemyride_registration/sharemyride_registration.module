@@ -41,5 +41,5 @@ function sharemyride_registration_menu() {
 function sharemyride_registration_form_user_register_form_alter(&$form, &$form_state) {
     drupal_set_message('Form Alter');
     ctools_include('wizard');
-    $form['#submit'] = array('user_register_submit', 'ctools_wizard_submit',);
+    $form['#submit'] = array('user_register_submit, 'ctools_wizard_submit',);
 }

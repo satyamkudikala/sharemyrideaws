@@ -7,7 +7,7 @@
  */
 
 function form_userregistration_wizard($form, &$form_state) {
-
+    
     // Initialize a description of the steps for the wizard.
     if (empty($form_state['step'])) {
         $form_state['step'] = 1;
@@ -19,7 +19,8 @@ function form_userregistration_wizard($form, &$form_state) {
     }
     $step = &$form_state['step'];
     $stepinfo = $form_state['step_information'][$step]['form'];
-    drupal_set_title(t('User Registration:  @step  @stepinfo ', array('@step' => $step, '@stepinfo' => $stepinfo)));
+ 
+    //drupal_set_title(t('User Registration:  @step  @stepinfo ', array('@step' => $step, '@stepinfo' => $stepinfo)));
 
     // Call the function named in $form_state['step_information'] to get the
     // form elements to display for this step.
@@ -122,11 +123,21 @@ function form_userregistration_wizard_intres_info($form, &$form_state) {
         ),
     );
     $form['intrest1'] = array(
-        '#type' => 'textfield',
+        '#type' => 'textarea',
         '#title' => t('Intrests while ride'),
         '#default_value' => !empty($form_state['values']['intrest2']) ? $form_state['values']['intrest2'] : '',
-    );
+        '#description' => 'maximum allowed chars 200',
+        '#length' => 200,
+        '#size' => 200,
+    );  
     return $form;
+}
+
+function form_userregistration_wizard_intres_info_validate($form, &$form_state){
+    $intrests = $form_state['values']['intrest1'];
+    if(!empty($intrests) && strlen($intrests) >200){
+        form_set_error('intrest1','maximum allowed length 200 chars');
+    }
 }
 
 function form_userregistration_wizard_userdetails_info($form, &$form_state) {
@@ -150,8 +161,10 @@ function form_userregistration_wizard_userdetails_info($form, &$form_state) {
         '#title' => t('Mobile'),
         '#default_value' => !empty($form_state['values']['mobilenumber']) ? $form_state['values']['mobilenumber'] : '',
         '#size' => 12,
-        '#maxlength' => 12
+        '#maxlength' => 12,
+        
     );
+    
     $form['alternatenumber'] = array(
         '#type' => 'textfield',
         '#title' => t('Alternate Number'),
@@ -171,15 +184,7 @@ function form_userregistration_wizard_userdetails_info($form, &$form_state) {
     );
 
 
-    $form['address'] = array(
-        '#type' => 'addressfield',
-        //   '#required' => TRUE,
-        '#title' => t(' Address '),
-        '#context' => array('countries' => array('AT', 'AS', 'BE', 'BG', 'CA', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'GU', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PR', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB', 'UM', 'US', 'VI', 'IN'), ''),
-        '#default_value' => array('country' => 'AU'),
-        '#description' => "Please enter your address.",
-    );
-
+    
     $form['drilivnumber'] = array(
         '#type' => 'textfield',
         '#title' => t('Driver Licence Number'),
@@ -204,6 +209,15 @@ function form_userregistration_wizard_userdetails_info($form, &$form_state) {
         '#default_value' => !empty($form_state['values']['upload_fieldset']['email']) ? $form_state['values']['upload_fieldset']['email'] : '',
             //     '#size' => 50,
             //   '#maxlength' => 50
+    );
+    $form['address'] = array(
+        '#type' => 'addressfield',
+        //'#required' => TRUE,
+        '#title' => t(' Address '),
+        '#context' => array('countries' => array('AT', 'AS', 'BE', 'BG', 'CA', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'GU', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PR', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB', 'UM', 'US', 'VI', 'IN'), ''),
+        '#default_value' => array('country' => 'AU'),
+        '#description' => "Please enter your address.",
+        '#attribute' => 'class=\'address-fields\'',
     );
 
     return $form;
@@ -240,10 +254,11 @@ function form_userregistration_wizard_car_info($form, &$form_state) {
         ),
             //'#description' => t('Choose an option.'),
     );
+    
 
     $form['carnumber'] = array(
         '#type' => 'textfield',
-        '#title' => t('Car Number'),
+        '#title' => t('Car number'),
         '#default_value' => !empty($form_state['values']['carnumber']) ? $form_state['values']['carnumber'] : '',
         '#size' => 20,
         '#maxlength' => 20
@@ -251,12 +266,12 @@ function form_userregistration_wizard_car_info($form, &$form_state) {
 
     $form['carcolor'] = array(
         '#type' => 'textfield',
-        '#title' => t('Car Color'),
+        '#title' => t('Car color'),
         '#default_value' => !empty($form_state['values']['carcolor']) ? $form_state['values']['carcolor'] : '',
         '#size' => 20,
         '#maxlength' => 20
     );
-
+    
     return $form;
 }
 
@@ -363,7 +378,7 @@ function form_userregistration_wizard_bankdetails_info($form, &$form_state) {
 
 function form_userregistration_wizard_preview_info($form, &$form_state) {
     $form = array();
-    drupal_set_message('Please check Details');
+   // drupal_set_message('Please check Details');
     // print "<pre>";
     // print_r($form_state);
     // print "</pre>";
@@ -441,20 +456,20 @@ function form_userregistration_wizard_preview_info($form, &$form_state) {
         '#markup' => !empty($form_state['step_information'][2]['stored_values']['drilivnumber']) ? $form_state['step_information'][2]['stored_values']['drilivnumber'] : 'No data',
     );
 
-    $addressFieldData = $form_state['step_information'][2]['stored_values']['address']['country'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['administrative_area'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['sub_administrative_area'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['locality'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['dependent_locality'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['postal_code'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['thoroughfare'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['premise'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['sub_premise'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['organisation_name'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['name_line'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['first_name'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['last_name'] . '/n' .
-            $form_state['step_information'][2]['stored_values']['address']['data'] . '/n'
+    $addressFieldData = $form_state['step_information'][2]['stored_values']['address']['country'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['administrative_area'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['sub_administrative_area'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['locality'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['dependent_locality'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['postal_code'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['thoroughfare'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['premise'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['sub_premise'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['organisation_name'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['name_line'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['first_name'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['last_name'] . ' ' .
+            $form_state['step_information'][2]['stored_values']['address']['data'] . ' '
     ;
     $form['user_details']['address'] = array(
         '#type' => 'item',
@@ -569,6 +584,15 @@ function form_userregistration_wizard_login_info($form, &$form_state) {
         '#size' => 40,
         '#maxlength' => 20
     );
+    
+    $form['email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Email'),
+        '#default_value' => !empty($form_state['values']['email']) ? $form_state['values']['email'] : '',
+        '#size' => 50,
+        '#maxlength' => 50
+    );
+    
     $form['password'] = array(
         '#type' => 'password',
         '#title' => t('Password'),
@@ -583,13 +607,7 @@ function form_userregistration_wizard_login_info($form, &$form_state) {
         '#size' => 40,
         '#maxlength' => 20
     );
-    $form['email'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Email'),
-        '#default_value' => !empty($form_state['values']['email']) ? $form_state['values']['email'] : '',
-        '#size' => 50,
-        '#maxlength' => 50
-    );
+    
     return $form;
 }
 
@@ -627,10 +645,127 @@ function form_userregistration_wizard_conf_info($form, &$form_state) {
     }
     return $form;
 }
+function form_userregistration_wizard_car_info_validate($form,&$form_state){
+    //print   '<pre>';
+    //print_r($form_state);
+    //print   '</pre>';
+    
+    
+    
+    
+}
 
-//function form_userregistration_wizard_login_info_validate($form, &$form_state) {
-//    // validate User name conditions are no special chars allowed
-//    $username = $form_state['values']['username'];
+    function form_userregistration_wizard_bankdetails_info_validate($form,&$form_state){
+        
+      //  print   '<pre>';
+      //  print_r($form_state);
+      //  print   '</pre>';
+    
+        $modeofpayment = $form_state['values']['modeofpayment'];
+        if(empty($modeofpayment) || '*' == $modeofpayment){
+            form_set_error('modeofpayment','select payment option ');
+        }
+        
+    }   
+    function form_userregistration_wizard_usertype_info_validate($form,&$form_state){
+    //print   '<pre>';
+    //print_r($form_state);
+    //print   '</pre>';
+    $usertype = $form_state['values']['usertype']; //30
+    if(empty($usertype)){
+        form_set_error('usertype','select user type');
+    }
+    
+}
+
+function form_userregistration_wizard_userdetails_info_validate($form, &$form_state){
+    
+    //first name validatation
+    //print   '<pre>';
+    //print_r($form_state);
+    //print   '</pre>';
+    
+    $first_name = $form_state['values']['first_name']; //30
+    $last_name = $form_state['values']['last_name']; //20 
+    $mobilenumber=$form_state['values']['mobilenumber']; //20 
+    $alternatenumber=$form_state['values']['alternatenumber']; // 20 
+    $dateofbirth=$form_state['values']['dateofbirth'];
+    $address=$form_state['values']['address']; 
+    $drilivnumber=$form_state['values']['drilivnumber']; //20
+    
+    if($error = validate_str($first_name,'First name',30)){
+        form_set_error('first_name',$error);
+    }
+    if($error = validate_str($last_name,'Last name',40)){
+        form_set_error('last_name',$error);
+    } 
+    
+    if(empty($mobilenumber)){
+        form_set_error('mobilenumber','You must enter mobile number');
+    }elseif(!is_digits($mobilenumber)){
+        form_set_error('mobilenumber','Enter only number values for mobile number ');
+    }elseif(strlen($mobilenumber) != 10 ){
+        form_set_error('mobilenumber','Enter valid mobile number ');
+    }
+    
+    if(!empty($alternatenumber) && !is_digits($alternatenumber)){
+        form_set_error('alternatenumber','Enter only number values for mobile number ');
+    }elseif(strlen($alternatenumber) != 10 ){
+        form_set_error('alternatenumber','Enter valid mobile number ');
+    }
+    
+    // date validation
+    
+    //
+    }
+    /* numeric, decimal passes */
+
+    function validate_numeric($variable) {
+        return is_numeric($variable);
+    }
+
+    /* digits only, no dots */
+
+    function is_digits($element) {
+        return !preg_match("/[^0-9]/", $element);
+    }
+
+    function validate_str($str_val,$field_name,$max_length) {
+    if (!$str_val) {
+        return t('You must enter a'. $field_name .'.');
+    }
+    if (substr($str_val, 0, 1) == ' ') {
+        return t('The '. $field_name .' cannot begin with a space.');
+    }
+    if (substr($str_val, -1) == ' ') {
+        return t('The '. $field_name .' cannot end with a space.');
+    }
+    if (strpos($str_val, '  ') !== FALSE) {
+        return t('The '. $field_name .' cannot contain multiple spaces in a row.');
+    }
+    if (preg_match('/[^\x{80}-\x{F7} a-z0-9@_.\'-]/i', $str_val)) {
+        return t('The '. $field_name .' contains an illegal character.');
+    }
+    if (preg_match('/[\x{80}-\x{A0}' . // Non-printable ISO-8859-1 + NBSP
+                    '\x{AD}' . // Soft-hyphen
+                    '\x{2000}-\x{200F}' . // Various space characters
+                    '\x{2028}-\x{202F}' . // Bidirectional text overrides
+                    '\x{205F}-\x{206F}' . // Various text hinting characters
+                    '\x{FEFF}' . // Byte order mark
+                    '\x{FF01}-\x{FF60}' . // Full-width latin
+                    '\x{FFF9}-\x{FFFD}' . // Replacement characters
+                    '\x{0}-\x{1F}]/u', // NULL byte and control characters
+                    $str_val)) {
+        return t('The '. $field_name .' contains an illegal character.');
+    }
+    if (drupal_strlen($str_val) > $max_length) {
+        return t('The '. $field_name .' %str_val is too long: it must be %max characters or less.', array('%str_val' => $str_val, '%max_length' => $max_length));
+    }
+}
+
+function form_userregistration_wizard_login_info_validate($form, &$form_state) {
+    // validate User name conditions are no special chars allowed
+    $username = $form_state['values']['username'];
 //    if (empty($username)) {
 //
 //        form_set_error('username', t('User name can\'t be blank'));
@@ -644,24 +779,53 @@ function form_userregistration_wizard_conf_info($form, &$form_state) {
 //            form_set_error('username', t($msg2_name));
 //        }
 //    }
-//
-//    //password validation 
-//    $password = $form_state['values']['password'];
-//    $confpassword = $form_state['values']['confpassword'];
-//    if (empty($password)) {
-//        form_set_error('password', t('Password can\'t be blank'));
-//    } else if (strlen($password) < 6) {
-//
-//        form_set_error('password', t('Password must be atleast 6 chars'));
-//    } else if (empty($confpassword)) {
-//        form_set_error('confpassword', t('Confirmation password can\'t be blank'));
-//    } else if ($confpassword != $password) {
-//        form_set_error('confpassword', t('Password not match with Confirmation password '));
-//    }
-//
-//    // email validation 
-//    $email = $form_state['values']['email'];
-//
+    // if ($form['#user_category'] == 'account' || $form['#user_category'] == 'register') {
+    //$account = $form['#user'];
+    // Validate new or changing username.
+    if (isset($username)) {
+        if ($error = user_validate_name($username)) {
+            form_set_error('username', $error);     
+        } elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('name', db_like($username), 'LIKE')->range(0, 1)->execute()->fetchField()) {
+            form_set_error('username', t('The name %name is already taken.', array('%name' => $username)));
+        }
+    }
+    // email validation 
+    $email = $form_state['values']['email'];
+    // Validate the e-mail address, and check if it is taken by an existing user.
+    if ($error = user_validate_mail($email)) {
+        form_set_error('email', $error);
+    } elseif ((bool) db_select('users')
+                    ->fields('users', array('uid'))
+                    //->condition('uid', $account->uid, '<>')
+                    ->condition('mail', db_like($email), 'LIKE')
+                    ->range(0, 1)
+                    ->execute()
+                    ->fetchField()) {
+        // Format error message dependent on whether the user is logged in or not.
+        if ($GLOBALS['user']->uid) {
+            form_set_error('email', t('The e-mail address %email is already taken.', array('%email' => $email)));
+        } else {
+            form_set_error('email', t('The e-mail address %email is already registered. <a href="@password">Have you forgotten your password?</a>', array('%email' => $email, '@password' => url('user/password'))));
+        }
+    }
+
+
+    
+    //password validation 
+    $password = $form_state['values']['password'];
+    $confpassword = $form_state['values']['confpassword'];
+    if (empty($password)) {
+        form_set_error('password', t('Password can\'t be blank'));
+    } else if (strlen($password) < 6) {
+
+        form_set_error('password', t('Password must be atleast 6 chars'));
+    } else if (empty($confpassword)) {
+        form_set_error('confpassword', t('Confirmation password can\'t be blank'));
+    } else if ($confpassword != $password) {
+        form_set_error('confpassword', t('Password not match with Confirmation password '));
+    }
+
+
 //    if (empty($email)) {
 //        form_set_error('email', t('email can\'t be blank'));
 //    } else {
@@ -674,7 +838,7 @@ function form_userregistration_wizard_conf_info($form, &$form_state) {
 //            form_set_error('$email', t($msg2_name));
 //        }
 //    }
-//}
+}
 
 function form_userregistration_wizard_upload_submit($form, &$form_state) {
     $current_step = &$form_state['step'];
@@ -685,7 +849,7 @@ function form_userregistration_wizard_upload_submit($form, &$form_state) {
     }
     $form_state['rebuild'] = TRUE;
 
-    drupal_set_message('called');
+  ///  drupal_set_message('called');
     //$form
     //return $form;
 }
@@ -755,7 +919,7 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
         $result = $query->execute();
 
 
-        drupal_set_message('registration completed for address' . $result);
+      //  drupal_set_message('registration completed for address' . $result);
         // car details 
 
         $car_fields = array('carmodel', 'carcapacity', 'carnumber', 'carcolor',);
@@ -773,7 +937,7 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
 
         $car_ins_result = $car_insert_query->execute();
 
-        drupal_set_message('car insert  completed for user' . $result);
+        //drupal_set_message('car insert  completed for user' . $result);
 
         // User Details 
 
@@ -809,7 +973,7 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
 
         $user_insert_query->execute();
 
-        drupal_set_message('User Inserted');
+      //  drupal_set_message('User Inserted');
 
         //user intrests 
         $intrest_fields = array('intresttext', 'username');
@@ -826,7 +990,7 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
 
         $intrest_insert_query->execute();
 
-        drupal_set_message('User Inserted with intrest details');
+//        drupal_set_message('User Inserted with intrest details');
 
         $messa = 'Transaction OK';
         $user_name = $form_state['step_information'][1]['stored_values']['username'];
@@ -834,23 +998,27 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
         $pass = $form_state['step_information'][1]['stored_values']['password'];
 
         $current_step = &$form_state['step'];
-        $form_state_copy = clone_array($form_state);
-          
-        
-          drupal_set_message('inserted');
-            $form_state = array();
+
+
+        $form_state_copy = $form_state;
+
+       // drupal_set_message('inserted');
+        $form_state = array();
         $form_state['values']['name'] = $user_name;
         $form_state['values']['mail'] = $email;
         $form_state['values']['pass']['pass1'] = $pass;
         $form_state['values']['pass']['pass2'] = $pass;
         $form_state['values']['op'] = t('Create new account');
+        
         drupal_form_submit('user_register_form', $form_state);
-        drupal_set_message('inserted User');
-        $from_state = array();
-        $form_state = clone_array($form_state_copy);
         
+     //   drupal_set_message('inserted User');
         
-    $form_state['step_information'][$current_step]['stored_values'] = $form_state['values'];
+        $form_state = array();
+
+        $form_state = $form_state_copy;
+
+        $form_state['step_information'][$current_step]['stored_values'] = $form_state['values'];
 
         if ($current_step < count($form_state['step_information'])) {
             $current_step++;
@@ -860,32 +1028,25 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
                 $form_state['values'] = array();
                 $form_state['values']['message'] = $messa;
             }
-            $form_state['rebuild'] = TRUE;  // Force rebuild with next step.
+            //$form_state['rebuild'] = TRUE;  // Force rebuild with next step.
         }
-
-        
-        
     } catch (Exception $e) {
         $transaction->rollback();
-        drupal_set_message('rollback success' . $e);
+       // drupal_set_message('rollback success' . $e);
         watchdog_exception('my_type', $e);
         $messa = 'Fail';
     }
-        
+
     return;
 }
 
 function clone_array($copied_array) {
     return array_map(function($element) {
         return (
-            ((is_array($element))
-                ? call_user_func(__FUNCTION__, $element)
-                : ((is_object($element))
-                    ? clone $element
-                    : $element
+                ((is_array($element)) ? call_user_func(__FUNCTION__, $element) : ((is_object($element)) ? clone $element : $element
+                        )
                 )
-            )
-        );
+                );
     }, $copied_array);
 }
 

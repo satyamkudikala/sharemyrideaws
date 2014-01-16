@@ -1603,3 +1603,407 @@ line-height: 100%;
 margin: 10px 0 0;
 font-weight: bold;
 }
+
+#post-content .page-title{
+    
+    text-align: center;
+}
+
+#block-system-main .form-item-username {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-username label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-username input {
+    float: left;
+    width: 58%;
+}
+
+#block-system-main .form-item-email {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-email label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-email input {
+    float: left;
+    width: 58%;
+}
+
+#block-system-main .form-item-password {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-password label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-password input {
+    float: left;
+    width: 58%;
+}
+
+#block-system-main .form-item-confpassword {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-confpassword label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-confpassword input {
+    float: left;
+    width: 58%;
+}
+
+#block-system-main .form-submit{    
+    float:right;    
+}
+
+
+#block-system-main .form-item-first-name {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-first-name label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-first-name input {
+    float: left;
+    width: 58%;
+}
+
+#block-system-main .form-item-last-name {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-last-name label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-last-name input {
+    float: left;
+    width: 58%;
+}
+
+#block-system-main .form-item-mobilenumber {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-mobilenumber label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-mobilenumber input {
+    float: left;
+    width: 58%;
+}
+
+
+#block-system-main .form-item-alternatenumber {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-alternatenumber label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-alternatenumber input {
+    float: left;
+    width: 58%;
+}
+#block-system-main .form-item-dateofbirth {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-dateofbirth label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-dateofbirth input {
+    float: left;
+    width: 58%;
+}
+
+#block-system-main .form-item-drilivnumber {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-drilivnumber label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-drilivnumber input {
+    float: left;
+    width: 58%;
+}
+
+
+#block-system-main #documents-fieldset-wrapper{
+    float: left;
+    width: 100%;
+}
+
+#block-system-main #edit-address #edit-address-address {
+    float: left;
+    width: 100%;
+    
+}
+
+#block-system-main div[id^=edit-address] {
+    float: left;
+    width: 100%;
+    
+}
+
+#block-system-main div[id^=edit-address] label{
+    float: left;
+    width: 28%;
+}
+#block-system-main div[id^=edit-address] input{
+    float: left;
+    width: 68%;
+}
+
+#block-system-main div[id^=edit-address] div[class^=country] .form-item-address-postal-code{
+    float: left;
+    width: 50%;
+}
+#block-system-main div[id^=edit-address] div[class^=country] .form-item-address-postal-code label{
+    float: left;
+    width: 30%;
+}
+#block-system-main div[id^=edit-address] div[class^=country] .form-item-address-postal-code input{
+    float: left;
+    width: 68%;
+}
+#block-system-main .fieldset-wrapper {
+    float: left;
+    width: 100%;
+}
+
+#block-system-main .form-item-cartype {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-cartype label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-cartype input {
+    float: left;
+    width: 58%;
+}
+
+#block-system-main .form-item-carcapacity {
+    float: right;
+    width: 50%;
+}
+#block-system-main .form-item-carcapacity label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-carcapacity input {
+    float: left;
+    width: 58%;
+}
+#block-system-main .form-item-carcapacity select {
+    float: right;
+    width: 58%;
+}
+#block-system-main .form-item-carnumber {
+    float: left;
+    width: 51%;
+}
+#block-system-main .form-item-carnumber label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-carnumber input {
+    float: left;
+    width: 58%;
+}
+
+#block-system-main .form-item-carcolor {
+    float: right;
+    width: 48%;
+}
+#block-system-main .form-item-carcolor label {
+    float: left;
+    width: 28%;
+}
+#block-system-main .form-item-carcolor input {
+    float: right;
+    width: 58%;
+}
+
+#block-system-main .form-submit{
+      float:right;    
+}
+
+#block-system-main .form-item input:after {
+   
+  clear: both;
+  content: ' ';
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+
+}
+
+#block-system-main .form-item-usertype{
+    float: left;
+    width: 100%;
+}
+#block-system-main .form-item-usertype label{
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-usertype .form-radios .form-item-usertype{
+    float: left;
+    width: 25%;
+}
+
+#block-system-main .form-item-modeofpayment {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-modeofpayment label{
+    float: left;
+    width: 49%;
+}
+#block-system-main .form-item-modeofpayment select{
+    float: left;
+    width: 51%;
+}
+#block-system-main #modeofpayment-f-s-wrapper  {
+    float:left;
+    width: 100%;
+}
+
+#block-system-main .form-item-Smoker {
+    float: left;
+    width: 50%;
+}
+#block-system-main .form-item-Smoker label{
+    float: left;
+    width: 49%;
+}
+#block-system-main .form-item-Smoker select{
+    float: left;
+    width: 51%;
+}
+#block-system-main .form-item-intrest1{
+    float: left;
+    width: 100%;
+}
+#block-system-main .form-item-intrest1 label{
+    float: left;
+    width: 100%;
+}
+#block-system-main .form-item-intrest1 .resizable-textarea textArea{
+    float: left;
+    width: 100%;
+    size: 95%;
+}
+
+
+#block-system-main #edit-username {
+    width: 50%;
+    float: left;
+    
+}
+#block-system-main #edit-username label{
+    width: 50%;
+    float: left;
+}
+#block-system-main #edit-username{
+    width: 50%;
+    float: left;
+}
+#block-system-main #edit-email {
+    width: 50%;
+    float: left;    
+}
+#block-system-main #edit-email label{
+    width: 50%;
+    float: left;
+}
+#block-system-main #edit-email{
+    width: 50%;
+    float: left;
+}
+
+#block-system-main #user-details-wrapper div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #user-details-wrapper div[id^=edit-] label{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #user-details-wrapper div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
+
+#block-system-main #edit-car-details div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #edit-car-details div[id^=edit-] label{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #edit-car-details div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
+
+#block-system-main #edit-user-type-details div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #edit-user-type-details div[id^=edit-] label{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #edit-user-type-details div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
+
+#block-system-main #edit-pay-details div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #edit-pay-details div[id^=edit-] label{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #edit-pay-details div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
+
+#block-system-main #edit-more-details div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #edit-more-details div[id^=edit-] label{
+    width: 50%;
+    float: left; 
+}
+#block-system-main #edit-more-details div[id^=edit-]{
+    width: 50%;
+    float: left; 
+}
