@@ -212,7 +212,7 @@ function form_userregistration_wizard_userdetails_info($form, &$form_state) {
     );
     $form['address'] = array(
         '#type' => 'addressfield',
-        //'#required' => TRUE,
+        '#required' => TRUE,
         '#title' => t(' Address '),
         '#context' => array('countries' => array('AT', 'AS', 'BE', 'BG', 'CA', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'GU', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PR', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB', 'UM', 'US', 'VI', 'IN'), ''),
         '#default_value' => array('country' => 'AU'),
