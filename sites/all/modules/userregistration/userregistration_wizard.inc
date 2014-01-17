@@ -1,5 +1,6 @@
 <?php
 
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,7 +8,7 @@
  */
 
 function form_userregistration_wizard($form, &$form_state) {
-    
+
     // Initialize a description of the steps for the wizard.
     if (empty($form_state['step'])) {
         $form_state['step'] = 1;
@@ -19,9 +20,8 @@ function form_userregistration_wizard($form, &$form_state) {
     }
     $step = &$form_state['step'];
     $stepinfo = $form_state['step_information'][$step]['form'];
- 
-    //drupal_set_title(t('User Registration:  @step  @stepinfo ', array('@step' => $step, '@stepinfo' => $stepinfo)));
 
+    //drupal_set_title(t('User Registration:  @step  @stepinfo ', array('@step' => $step, '@stepinfo' => $stepinfo)));
     // Call the function named in $form_state['step_information'] to get the
     // form elements to display for this step.
     $form = $form_state['step_information'][$step]['form']($form, $form_state);
@@ -112,6 +112,8 @@ function _form_example_steps() {
 }
 
 function form_userregistration_wizard_intres_info($form, &$form_state) {
+    
+    drupal_set_title(t('User Registration: More about you'));
     $form = array();
     $form['Smoker'] = array(
         '#type' => 'select',
@@ -129,18 +131,20 @@ function form_userregistration_wizard_intres_info($form, &$form_state) {
         '#description' => 'maximum allowed chars 200',
         '#length' => 200,
         '#size' => 200,
-    );  
+    );
     return $form;
 }
 
-function form_userregistration_wizard_intres_info_validate($form, &$form_state){
+function form_userregistration_wizard_intres_info_validate($form, &$form_state) {
     $intrests = $form_state['values']['intrest1'];
-    if(!empty($intrests) && strlen($intrests) >200){
-        form_set_error('intrest1','maximum allowed length 200 chars');
+    if (!empty($intrests) && strlen($intrests) > 200) {
+        form_set_error('intrest1', 'maximum allowed length 200 chars');
     }
 }
 
 function form_userregistration_wizard_userdetails_info($form, &$form_state) {
+    
+    drupal_set_title(t('User Registration: User Details'));
     $form = array();
     $form['first_name'] = array(
         '#type' => 'textfield',
@@ -162,9 +166,8 @@ function form_userregistration_wizard_userdetails_info($form, &$form_state) {
         '#default_value' => !empty($form_state['values']['mobilenumber']) ? $form_state['values']['mobilenumber'] : '',
         '#size' => 12,
         '#maxlength' => 12,
-        
     );
-    
+
     $form['alternatenumber'] = array(
         '#type' => 'textfield',
         '#title' => t('Alternate Number'),
@@ -184,7 +187,7 @@ function form_userregistration_wizard_userdetails_info($form, &$form_state) {
     );
 
 
-    
+
     $form['drilivnumber'] = array(
         '#type' => 'textfield',
         '#title' => t('Driver Licence Number'),
@@ -203,13 +206,32 @@ function form_userregistration_wizard_userdetails_info($form, &$form_state) {
             // '#attributes' => array(
             //                       'style' => 'visibility:hidden;')
     );
-    $form['documents_fieldset']['docfile'] = array(
-        '#type' => 'file',
-        '#title' => t('File path'),
-        '#default_value' => !empty($form_state['values']['upload_fieldset']['email']) ? $form_state['values']['upload_fieldset']['email'] : '',
-            //     '#size' => 50,
-            //   '#maxlength' => 50
-    );
+    
+    $fileContent = $form_state['fileContent'];
+    
+    // drupal_set_message('file uploaded file name '.$fileContent['filename']);
+            $form['documents_fieldset']['docfile'] = array(
+            '#type' => 'managed_file',
+            '#title' => t('Upload photo'),
+            '#description' => t('Allowed extensions: gif png jpg jpeg'),
+            '#upload_location' => 'public://uploads/',
+            '#default_value' => $row['documents_fieldset'],
+            '#theme' => 'userregistration_thumb_upload',
+            '#upload_validators' => array(
+            'file_validate_extensions' => array('gif png jpg jpeg'),
+            // Pass the maximum file size in bytes
+            'file_validate_size' => array(1024*1024*1024),
+             )
+            );
+//    $form['documents_fieldset']['docfile'] = array(
+//        '#type' => 'file',
+//        '#title' => t('photo copy '),
+//        '#default_value' => !empty($form_state['values']['file']['filename']) ? $form_state['values']['file']['filename'] : '',
+//            //     '#size' => 50,
+//            //   '#maxlength' => 50
+//        '#description' => t('Upload a file, allowed extensions: jpg, jpeg, png, gif'),
+//    );
+//    
     $form['address'] = array(
         '#type' => 'addressfield',
         '#required' => TRUE,
@@ -220,11 +242,12 @@ function form_userregistration_wizard_userdetails_info($form, &$form_state) {
         '#attribute' => 'class=\'address-fields\'',
     );
 
+   
     return $form;
 }
 
 function form_userregistration_wizard_car_info($form, &$form_state) {
-
+drupal_set_title(t('User Registration: User Car Details'));
     $form = array();
 
     $form['cartype'] = array(
@@ -254,7 +277,7 @@ function form_userregistration_wizard_car_info($form, &$form_state) {
         ),
             //'#description' => t('Choose an option.'),
     );
-    
+
 
     $form['carnumber'] = array(
         '#type' => 'textfield',
@@ -271,11 +294,12 @@ function form_userregistration_wizard_car_info($form, &$form_state) {
         '#size' => 20,
         '#maxlength' => 20
     );
-    
+
     return $form;
 }
 
 function form_userregistration_wizard_usertype_info($form, &$form_state) {
+    drupal_set_title(t('User Registration: User Type Select'));
     $form = array();
 
     $form['usertype'] = array(
@@ -290,6 +314,7 @@ function form_userregistration_wizard_usertype_info($form, &$form_state) {
 }
 
 function form_userregistration_wizard_bankdetails_info($form, &$form_state) {
+    drupal_set_title(t('User Registration: User Bank Details'));
     $form = array();
 //    $form['modeofpayment'] = array(
 //        '#type' => 'textfield',
@@ -377,11 +402,9 @@ function form_userregistration_wizard_bankdetails_info($form, &$form_state) {
 }
 
 function form_userregistration_wizard_preview_info($form, &$form_state) {
-    $form = array();
-   // drupal_set_message('Please check Details');
-    // print "<pre>";
-    // print_r($form_state);
-    // print "</pre>";
+    
+    
+    drupal_set_title(t('User Registration: Review Details'));
 
     $form = array();
 
@@ -569,13 +592,13 @@ function form_userregistration_wizard_preview_info($form, &$form_state) {
         '#title' => t('Other Intrests'),
         '#markup' => !empty($form_state['step_information'][6]['stored_values']['intrest1']) ? $form_state['step_information'][6]['stored_values']['intrest1'] : 'No data',
     );
-    //   print '<pre>';
-    // print_r($form_state['step_information'][6]);
-    // print '</pre>';
+    
     return $form;
 }
 
 function form_userregistration_wizard_login_info($form, &$form_state) {
+    
+    drupal_set_title(t('User Registration: Login Details'));
     $form = array();
     $form['username'] = array(
         '#type' => 'textfield',
@@ -584,7 +607,7 @@ function form_userregistration_wizard_login_info($form, &$form_state) {
         '#size' => 40,
         '#maxlength' => 20
     );
-    
+
     $form['email'] = array(
         '#type' => 'textfield',
         '#title' => t('Email'),
@@ -592,7 +615,7 @@ function form_userregistration_wizard_login_info($form, &$form_state) {
         '#size' => 50,
         '#maxlength' => 50
     );
-    
+
     $form['password'] = array(
         '#type' => 'password',
         '#title' => t('Password'),
@@ -607,7 +630,7 @@ function form_userregistration_wizard_login_info($form, &$form_state) {
         '#size' => 40,
         '#maxlength' => 20
     );
-    
+
     return $form;
 }
 
@@ -645,106 +668,130 @@ function form_userregistration_wizard_conf_info($form, &$form_state) {
     }
     return $form;
 }
-function form_userregistration_wizard_car_info_validate($form,&$form_state){
+
+function form_userregistration_wizard_car_info_validate($form, &$form_state) {
     //print   '<pre>';
     //print_r($form_state);
     //print   '</pre>';
-    
-    
-    
-    
 }
 
-    function form_userregistration_wizard_bankdetails_info_validate($form,&$form_state){
-        
-      //  print   '<pre>';
-      //  print_r($form_state);
-      //  print   '</pre>';
-    
-        $modeofpayment = $form_state['values']['modeofpayment'];
-        if(empty($modeofpayment) || '*' == $modeofpayment){
-            form_set_error('modeofpayment','select payment option ');
-        }
-        
-    }   
-    function form_userregistration_wizard_usertype_info_validate($form,&$form_state){
+function form_userregistration_wizard_bankdetails_info_validate($form, &$form_state) {
+
+    //  print   '<pre>';
+    //  print_r($form_state);
+    //  print   '</pre>';
+
+    $modeofpayment = $form_state['values']['modeofpayment'];
+    if (empty($modeofpayment) || '*' == $modeofpayment) {
+        form_set_error('modeofpayment', 'select payment option ');
+    }
+}
+
+function form_userregistration_wizard_usertype_info_validate($form, &$form_state) {
     //print   '<pre>';
     //print_r($form_state);
     //print   '</pre>';
     $usertype = $form_state['values']['usertype']; //30
-    if(empty($usertype)){
-        form_set_error('usertype','select user type');
+    if (empty($usertype)) {
+        form_set_error('usertype', 'select user type');
     }
-    
 }
 
-function form_userregistration_wizard_userdetails_info_validate($form, &$form_state){
-    
+function form_userregistration_wizard_userdetails_info_validate($form, &$form_state) {
+
     //first name validatation
-    //print   '<pre>';
-    //print_r($form_state);
-    //print   '</pre>';
     
+
     $first_name = $form_state['values']['first_name']; //30
     $last_name = $form_state['values']['last_name']; //20 
-    $mobilenumber=$form_state['values']['mobilenumber']; //20 
-    $alternatenumber=$form_state['values']['alternatenumber']; // 20 
-    $dateofbirth=$form_state['values']['dateofbirth'];
-    $address=$form_state['values']['address']; 
-    $drilivnumber=$form_state['values']['drilivnumber']; //20
+    $mobilenumber = $form_state['values']['mobilenumber']; //20 
+    $alternatenumber = $form_state['values']['alternatenumber']; // 20 
+    $dateofbirth = $form_state['values']['dateofbirth'];
+    $address = $form_state['values']['address'];
+    $drilivnumber = $form_state['values']['drilivnumber']; //20
     
-    if($error = validate_str($first_name,'First name',30)){
-        form_set_error('first_name',$error);
+    if ($error = validate_str($first_name, 'First name', 30)) {
+        form_set_error('first_name', $error);
     }
-    if($error = validate_str($last_name,'Last name',40)){
-        form_set_error('last_name',$error);
-    } 
-    
-    if(empty($mobilenumber)){
-        form_set_error('mobilenumber','You must enter mobile number');
-    }elseif(!is_digits($mobilenumber)){
-        form_set_error('mobilenumber','Enter only number values for mobile number ');
-    }elseif(strlen($mobilenumber) != 10 ){
-        form_set_error('mobilenumber','Enter valid mobile number ');
+    if ($error = validate_str($last_name, 'Last name', 40)) {
+        form_set_error('last_name', $error);
+    }
+
+    if (empty($mobilenumber)) {
+        form_set_error('mobilenumber', 'You must enter mobile number');
+    } elseif (!is_digits($mobilenumber)) {
+        form_set_error('mobilenumber', 'Enter only number values for mobile number ');
+    } elseif (strlen($mobilenumber) != 10) {
+        form_set_error('mobilenumber', 'Enter valid mobile number ');
+    }
+
+    if (!empty($alternatenumber) && !is_digits($alternatenumber)) {
+        form_set_error('alternatenumber', 'Enter only number values for mobile number ');
+    } elseif (strlen($alternatenumber) != 10) {
+        form_set_error('alternatenumber', 'Enter valid mobile number ');
+    }
+
+    if(!empty($drilivnumber) && strlen($drilivnumber)>20){
+        form_set_error('drilivnumber', 'Driver licence number max length 20 chars ');
     }
     
-    if(!empty($alternatenumber) && !is_digits($alternatenumber)){
-        form_set_error('alternatenumber','Enter only number values for mobile number ');
-    }elseif(strlen($alternatenumber) != 10 ){
-        form_set_error('alternatenumber','Enter valid mobile number ');
-    }
+    $file_doc = $form_state['documents_fieldset']['docfile'];
+    $file = $form_state['file'];
+    //drupal_set_message('document File' . $file_doc .'-- '. $file);
     
+  //  $file = file_save_upload('documents_fieldset', array(
+  //    'file_validate_is_image' => array(),
+  //    'file_validate_extensions' => array('png gif jpg jpeg'),
+ // ));
+   
+    $fid = $form_state['values']['documents_fieldset']['docfile'];
+    
+    if($fid) {
+    //if ($file = file_move($file, 'public://')) {
+      $form_state['values']['fid'] = $fid;
+     
+    //}
+//    else {
+//        form_set_error('documents_fieldset', t('Failed to write the uploaded file the site\'s file folder.'));
+//        }
+    }
+    else {
+        form_set_error('documents_fieldset', t('No file was uploaded.'));
+    }
+    //drupal_set_message('=='.$form_state['values']['file']);
     // date validation
     
-    //
-    }
-    /* numeric, decimal passes */
+    
 
-    function validate_numeric($variable) {
-        return is_numeric($variable);
     }
 
-    /* digits only, no dots */
+/* numeric, decimal passes */
 
-    function is_digits($element) {
-        return !preg_match("/[^0-9]/", $element);
-    }
+function validate_numeric($variable) {
+    return is_numeric($variable);
+}
 
-    function validate_str($str_val,$field_name,$max_length) {
+/* digits only, no dots */
+
+function is_digits($element) {
+    return !preg_match("/[^0-9]/", $element);
+}
+
+function validate_str($str_val, $field_name, $max_length) {
     if (!$str_val) {
-        return t('You must enter a'. $field_name .'.');
+        return t('You must enter a' . $field_name . '.');
     }
     if (substr($str_val, 0, 1) == ' ') {
-        return t('The '. $field_name .' cannot begin with a space.');
+        return t('The ' . $field_name . ' cannot begin with a space.');
     }
     if (substr($str_val, -1) == ' ') {
-        return t('The '. $field_name .' cannot end with a space.');
+        return t('The ' . $field_name . ' cannot end with a space.');
     }
     if (strpos($str_val, '  ') !== FALSE) {
-        return t('The '. $field_name .' cannot contain multiple spaces in a row.');
+        return t('The ' . $field_name . ' cannot contain multiple spaces in a row.');
     }
     if (preg_match('/[^\x{80}-\x{F7} a-z0-9@_.\'-]/i', $str_val)) {
-        return t('The '. $field_name .' contains an illegal character.');
+        return t('The ' . $field_name . ' contains an illegal character.');
     }
     if (preg_match('/[\x{80}-\x{A0}' . // Non-printable ISO-8859-1 + NBSP
                     '\x{AD}' . // Soft-hyphen
@@ -756,10 +803,10 @@ function form_userregistration_wizard_userdetails_info_validate($form, &$form_st
                     '\x{FFF9}-\x{FFFD}' . // Replacement characters
                     '\x{0}-\x{1F}]/u', // NULL byte and control characters
                     $str_val)) {
-        return t('The '. $field_name .' contains an illegal character.');
+        return t('The ' . $field_name . ' contains an illegal character.');
     }
     if (drupal_strlen($str_val) > $max_length) {
-        return t('The '. $field_name .' %str_val is too long: it must be %max characters or less.', array('%str_val' => $str_val, '%max_length' => $max_length));
+        return t('The ' . $field_name . ' %str_val is too long: it must be %max characters or less.', array('%str_val' => $str_val, '%max_length' => $max_length));
     }
 }
 
@@ -784,7 +831,7 @@ function form_userregistration_wizard_login_info_validate($form, &$form_state) {
     // Validate new or changing username.
     if (isset($username)) {
         if ($error = user_validate_name($username)) {
-            form_set_error('username', $error);     
+            form_set_error('username', $error);
         } elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('name', db_like($username), 'LIKE')->range(0, 1)->execute()->fetchField()) {
             form_set_error('username', t('The name %name is already taken.', array('%name' => $username)));
         }
@@ -810,7 +857,7 @@ function form_userregistration_wizard_login_info_validate($form, &$form_state) {
     }
 
 
-    
+
     //password validation 
     $password = $form_state['values']['password'];
     $confpassword = $form_state['values']['confpassword'];
@@ -849,7 +896,7 @@ function form_userregistration_wizard_upload_submit($form, &$form_state) {
     }
     $form_state['rebuild'] = TRUE;
 
-  ///  drupal_set_message('called');
+    ///  drupal_set_message('called');
     //$form
     //return $form;
 }
@@ -919,7 +966,7 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
         $result = $query->execute();
 
 
-      //  drupal_set_message('registration completed for address' . $result);
+        //  drupal_set_message('registration completed for address' . $result);
         // car details 
 
         $car_fields = array('carmodel', 'carcapacity', 'carnumber', 'carcolor',);
@@ -937,17 +984,21 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
 
         $car_ins_result = $car_insert_query->execute();
 
+        //uploaded file
+        
+        
+        
         //drupal_set_message('car insert  completed for user' . $result);
-
         // User Details 
 
+        
         $userdetails_fields = array('username', 'password', 'email', 'firstname', 'lastname', 'mobilenumber', 'altmobilenumber', 'dob', 'fileid',
             'driverLicnum', 'docveristatus', 'usertype', 'paymode', 'status', 'useraddressid', 'usercardetailsid');
 
         $dob = str_pad($form_state['step_information'][2]['stored_values']['dateofbirth']['day'], 2, '0', STR_PAD_LEFT) .
                 str_pad($form_state['step_information'][2]['stored_values']['dateofbirth']['month'], 2, '0', STR_PAD_LEFT) .
                 str_pad($form_state['step_information'][2]['stored_values']['dateofbirth']['year'], 4, '0', STR_PAD_LEFT);
-
+      //  drupal_set_message('fid'.$form_state['step_information'][2]['stored_values']['documents_fieldset']['docfile']);
         $user_data = array(
             'username' => $form_state['step_information'][1]['stored_values']['username'],
             'password' => $form_state['step_information'][1]['stored_values']['password'],
@@ -957,7 +1008,7 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
             'mobilenumber' => $form_state['step_information'][2]['stored_values']['mobilenumber'],
             'altmobilenumber' => $form_state['step_information'][2]['stored_values']['alternatenumber'],
             'dob' => intval($dob),
-            'fileid' => null,
+            'fileid' => $form_state['step_information'][2]['stored_values']['documents_fieldset']['docfile'],
             'driverLicnum' => $form_state['step_information'][2]['stored_values']['drilivnumber'],
             'docveristatus' => 'pending',
             'usertype' => $form_state['step_information'][4]['stored_values']['usertype'],
@@ -973,8 +1024,7 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
 
         $user_insert_query->execute();
 
-      //  drupal_set_message('User Inserted');
-
+        //  drupal_set_message('User Inserted');
         //user intrests 
         $intrest_fields = array('intresttext', 'username');
 
@@ -1002,18 +1052,18 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
 
         $form_state_copy = $form_state;
 
-       // drupal_set_message('inserted');
+        // drupal_set_message('inserted');
         $form_state = array();
         $form_state['values']['name'] = $user_name;
         $form_state['values']['mail'] = $email;
         $form_state['values']['pass']['pass1'] = $pass;
         $form_state['values']['pass']['pass2'] = $pass;
         $form_state['values']['op'] = t('Create new account');
-        
+
         drupal_form_submit('user_register_form', $form_state);
-        
-     //   drupal_set_message('inserted User');
-        
+
+        //   drupal_set_message('inserted User');
+
         $form_state = array();
 
         $form_state = $form_state_copy;
@@ -1032,7 +1082,7 @@ function form_userregistration_wizard_finish_submit($form, &$form_state) {
         }
     } catch (Exception $e) {
         $transaction->rollback();
-       // drupal_set_message('rollback success' . $e);
+        // drupal_set_message('rollback success' . $e);
         watchdog_exception('my_type', $e);
         $messa = 'Fail';
     }
